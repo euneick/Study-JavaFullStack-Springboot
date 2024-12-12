@@ -1,0 +1,28 @@
+1. lombok
+	- DTO 클래스에 @Data 어노테이션을 작성하면 모든 멤버 변수에 getter, setter, equals, hasCode, toString 메소드를 자동으로 생성
+	- 컴파일 후 생성되는 바이트코드 파일(*.class)에 생성
+	
+2. 버그를 찾고 해결하는 수단
+	- JUnit 단위 테스트 구현
+	- 로그 메세지 출력
+	 * @Slf4j 어노테이션
+		- 로그 메세지 출력기능을 구현하려는 클래스 위에 작성
+		
+			import lombok.slf4j.Slf4j;
+			
+			@Controller
+			@Slf4j
+			public class oooController {
+			
+				privte static final Logger log = LoggerFactory.getLogger(oooController.class);
+			}
+		
+		- 심각 정도 기준의 등급
+		 * trace < debug < info < warn < error
+		   (주로 사용하는 등급 : debug, info, error)
+			
+		- application.properties 설정 파일
+			logging.level.root=info
+			 * info 등급 이상의 로그 메세지만 출력 (defalut : info)
+			logging.level.net.skhu=debug
+			 * net.skhu 패키지 클래스들만 debug 등급으로 설정
