@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+
+<!-- Thymeleaf 언어를 사용하기 위한 설정 추가 -->
+<html lang="kr" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Hello world</title>
+</head>
+
+<body>
+	<h1>Hello World!</h1>
+	<p th:text="${ message }">기본 메세지</p>
+	<p th:text="${ current }">기본 날짜</p>
+	<p th:text="${ #dates.format(current, 'yyyy-MM-dd HH:mm:ss') }">기본 날짜</p>
+</body>
+
+</html>
