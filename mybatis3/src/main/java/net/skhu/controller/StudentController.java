@@ -63,6 +63,8 @@ public class StudentController {
 				throw new Exception("입력한 형식이 올바르지 않습니다.");
 			}
 
+			studentMapper.updateStudent(modelMapper.map(studentEdit, Student.class));
+
 			return "redirect:list";
 		}
 		catch (Exception e) {

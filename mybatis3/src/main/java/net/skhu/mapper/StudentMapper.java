@@ -36,4 +36,12 @@ public interface StudentMapper {
 			WHERE id=#{id}
 			""")
 	public Student selectStudentById(int id);
+
+	@Select("""
+			UPDATE student SET
+			studentNo=#{studentNo}, name=#{name}, departmentId=#{departmentId},
+			phone=#{phone}, sex=#{sex}, email=#{email}
+			WHERE id=#{id}
+			""")
+	public void updateStudent(Student student);
 }
