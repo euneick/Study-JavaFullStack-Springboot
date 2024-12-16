@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	
+	<link rel="stylesheet" type="text/css" href="/common.css" />
+	
+	<style>
+		form {
+			margin-bottom: 4px;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container shadow">
+		<h1>학생 목록</h1>
+		<form>
+			<input type="text" name="name" th:value="${name}">
+			<button type="submit">검색</button>
+		</form>
+		
+		<table class="list">
+			<thead>
+				<tr>
+					<th>id</th>
+					<th>학번</th>
+					<th>이름</th>
+					<th>학과</th>
+					<th>전화번호</th>
+					<th>성별</th>
+					<th>이메일</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="student:${students}">
+					<td th:text="${student.id}"></td>
+					<td>
+						<a th:text="${student.studentNo}" th:href="@{edit(id=${student.id})}"></a>
+					</td>
+					<td th:text="${student.name}"></td>
+					<td th:text="${student.departmentName}"></td>
+					<td th:text="${student.phone}"></td>
+					<td th:text="${student.sex}"></td>
+					<td th:text="${student.email}"></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+
+</html>
