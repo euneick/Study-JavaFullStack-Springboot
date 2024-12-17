@@ -19,6 +19,7 @@ import net.skhu.mapper.StudentMapper;
 import net.skhu.model.StudentEdit;
 
 
+
 @Controller
 @RequestMapping("student")
 @Slf4j
@@ -57,8 +58,6 @@ public class StudentController {
 	public String edit(Model model, @Valid StudentEdit studentEdit, BindingResult bindingResult) {
 
 		try {
-			log.debug(studentEdit.toString());
-
 			if (bindingResult.hasErrors()) {
 				throw new Exception("입력한 형식이 올바르지 않습니다.");
 			}
@@ -72,4 +71,33 @@ public class StudentController {
 			return "student/edit";
 		}
 	}
+
+	@GetMapping("create")
+	public String create(Model model) {
+
+		StudentEdit studentEdit = new StudentEdit();
+
+		model.addAttribute("studentEdit", studentEdit);
+
+		return "student/edit";
+	}
+
+	@PostMapping("create")
+	public String create(Model model, @Valid StudentEdit studentEdit, BindingResult bindingResult) {
+
+		try {
+			if (bindingResult.hasErrors()) {
+				throw new Exception("입력한 형식이 올바르지 않습니다.");
+			}
+
+			studentMapper.insertStudent(modelMapper.map(studentEdit, Student.class));
+
+			return "redirect:list";
+		}
+		catch (Exception e) {
+			bindingResult.reject("", null, e.getMessage());
+			return "student/edit";
+		}
+	}
+
 }

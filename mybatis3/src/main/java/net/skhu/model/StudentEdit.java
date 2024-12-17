@@ -30,7 +30,7 @@ public class StudentEdit {
 
 	@NotEmpty(message = "휴대폰 번호를 입력하세요.")
 	@NotBlank
-	@Pattern(regexp = "010-[0-9]{3,4}-[0-9]{4}", message = "휴대폰 번호를 입력하세요.")
+	@Pattern(regexp = "010-[0-9]{3,4}-[0-9]{4}")
 	private String phone;
 
 

@@ -21,7 +21,9 @@
 <body>
 	<div class="container">
 		<form method="post" th:object="${studentEdit}" class="shadow">
-			<h1>학생 수정</h1>
+			<h1 th:if="${studentEdit.id > 0}">학생 수정</h1>
+			<h1 th:if="${studentEdit.id == 0}">학생 등록</h1>
+			
 			<div class="row">
 				<label>학번 : </label>
 				<input type="text" th:field="*{studentNo}">

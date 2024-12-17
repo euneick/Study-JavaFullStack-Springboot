@@ -2,8 +2,10 @@ package net.skhu.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import net.skhu.dto.Student;
 
@@ -37,11 +39,17 @@ public interface StudentMapper {
 			""")
 	public Student selectStudentById(int id);
 
-	@Select("""
+	@Update("""
 			UPDATE student SET
 			studentNo=#{studentNo}, name=#{name}, departmentId=#{departmentId},
 			phone=#{phone}, sex=#{sex}, email=#{email}
 			WHERE id=#{id}
 			""")
 	public void updateStudent(Student student);
+
+	@Insert("""
+			INSERT INTO student(studentNo, name, departmentId, phone, sex, email)
+			VALUES(#{studentNo}, #{name}, #{departmentId}, #{phone}, #{sex}, #{email})
+			""")
+	public void insertStudent(Student stduent);
 }
