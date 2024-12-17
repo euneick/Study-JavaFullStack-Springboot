@@ -20,6 +20,7 @@ import net.skhu.model.StudentEdit;
 
 
 
+
 @Controller
 @RequestMapping("student")
 @Slf4j
@@ -54,24 +55,6 @@ public class StudentController {
 		return "student/edit";
 	}
 
-	@PostMapping("edit")
-	public String edit(Model model, @Valid StudentEdit studentEdit, BindingResult bindingResult) {
-
-		try {
-			if (bindingResult.hasErrors()) {
-				throw new Exception("입력한 형식이 올바르지 않습니다.");
-			}
-
-			studentMapper.updateStudent(modelMapper.map(studentEdit, Student.class));
-
-			return "redirect:list";
-		}
-		catch (Exception e) {
-			bindingResult.reject("", null, e.getMessage());
-			return "student/edit";
-		}
-	}
-
 	@GetMapping("create")
 	public String create(Model model) {
 
@@ -92,6 +75,37 @@ public class StudentController {
 
 			studentMapper.insertStudent(modelMapper.map(studentEdit, Student.class));
 
+			return "redirect:list";
+		}
+		catch (Exception e) {
+			bindingResult.reject("", null, e.getMessage());
+			return "student/edit";
+		}
+	}
+
+	@PostMapping(value = "edit", params = "cmd=save")
+	public String edit(Model model, @Valid StudentEdit studentEdit, BindingResult bindingResult) {
+
+		try {
+			if (bindingResult.hasErrors()) {
+				throw new Exception("입력한 형식이 올바르지 않습니다.");
+			}
+
+			studentMapper.updateStudent(modelMapper.map(studentEdit, Student.class));
+
+			return "redirect:list";
+		}
+		catch (Exception e) {
+			bindingResult.reject("", null, e.getMessage());
+			return "student/edit";
+		}
+	}
+
+	@PostMapping(value = "edit", params = "cmd=delete")
+	public String delete(Model model, @Valid StudentEdit studentEdit, BindingResult bindingResult) {
+
+		try {
+			studentMapper.deleteStudentById(studentEdit.getId());
 			return "redirect:list";
 		}
 		catch (Exception e) {
