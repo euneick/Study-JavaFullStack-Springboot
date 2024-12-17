@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import net.skhu.dto.Student;
+import net.skhu.mapper.DepartmentMapper;
 import net.skhu.mapper.StudentMapper;
 import net.skhu.model.StudentEdit;
 
@@ -28,6 +29,9 @@ public class StudentController {
 
 	@Autowired
 	private StudentMapper studentMapper;
+
+	@Autowired
+	private DepartmentMapper departmentMapper;
 
 	// 두 객체간의 데이터를 자동으로 복사해주는 도구
 	private ModelMapper modelMapper = new ModelMapper();
@@ -43,24 +47,13 @@ public class StudentController {
 		return "student/list";
 	}
 
-	@GetMapping("edit")
-	public String edit(Model model, @RequestParam int id) {
-
-		Student student = studentMapper.selectStudentById(id);
-
-		StudentEdit studentEdit = modelMapper.map(student, StudentEdit.class);
-
-		model.addAttribute("studentEdit", studentEdit);
-
-		return "student/edit";
-	}
-
 	@GetMapping("create")
 	public String create(Model model) {
 
 		StudentEdit studentEdit = new StudentEdit();
 
 		model.addAttribute("studentEdit", studentEdit);
+		model.addAttribute("departments", departmentMapper.selectDepartments());
 
 		return "student/edit";
 	}
@@ -79,8 +72,20 @@ public class StudentController {
 		}
 		catch (Exception e) {
 			bindingResult.reject("", null, e.getMessage());
+			model.addAttribute("departments", departmentMapper.selectDepartments());
 			return "student/edit";
 		}
+	}
+
+	@GetMapping("edit")
+	public String edit(Model model, @RequestParam int id) {
+
+		Student student = studentMapper.selectStudentById(id);
+
+		model.addAttribute("studentEdit", modelMapper.map(student, StudentEdit.class));
+		model.addAttribute("departments", departmentMapper.selectDepartments());
+
+		return "student/edit";
 	}
 
 	@PostMapping(value = "edit", params = "cmd=save")
