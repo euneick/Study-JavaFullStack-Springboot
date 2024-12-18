@@ -10,6 +10,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import net.skhu.dto.Student;
+import net.skhu.model.Pagination;
 
 @Mapper
 public interface StudentMapper {
@@ -20,20 +21,18 @@ public interface StudentMapper {
 			FROM student s
 			JOIN department d
 			ON s.departmentId = d.id
+			WHERE s.name LIKE #{name}
+			ORDER BY s.id DESC
+			LIMIT #{pagination.firstRecordIndex}, #{pagination.size}
 			""")
-	public List<Student> selectStudents();
+	public List<Student> selectStudents(Pagination pagination, String name);
 
 
 	@Select("""
-			SELECT
-				s.*, d.name AS departmentName
-			FROM student s
-			JOIN department d
-			ON s.departmentId = d.id
-			WHERE s.name LIKE #{name}
-			ORDER BY s.id
+			SELECT COUNT(*) FROM student
+			WHERE name LIKE #{name}
 			""")
-	public List<Student> selectSearchedStudent(String name);
+	public int selectStudentCount(String name);
 
 
 	@Select("""

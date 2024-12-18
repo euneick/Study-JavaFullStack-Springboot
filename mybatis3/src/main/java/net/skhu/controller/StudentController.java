@@ -17,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.skhu.dto.Student;
 import net.skhu.mapper.DepartmentMapper;
 import net.skhu.mapper.StudentMapper;
+import net.skhu.model.Pagination;
 import net.skhu.model.StudentEdit;
 
 
@@ -37,9 +38,12 @@ public class StudentController {
 	private ModelMapper modelMapper = new ModelMapper();
 
 	@GetMapping("list")
-	public String list(Model model, @RequestParam(value="name", defaultValue = "") String name) {
+	public String list(Model model, Pagination pagination,
+			@RequestParam(defaultValue = "") String name) {
 
-		List<Student> students = studentMapper.selectSearchedStudent(name + "%");
+		List<Student> students = studentMapper.selectStudents(pagination, name + "%");
+
+		pagination.setTotalRecord(studentMapper.selectStudentCount(name + "%"));
 
 		model.addAttribute("students", students);
 		model.addAttribute("name", name);
